@@ -1,0 +1,12 @@
+[package]
+name = "kernel_wasmi"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+wasmi_016 = { package = "wasmi", version = "0.16", default-features = false, features = ["std"], optional = true }
+wasmi_013 = { package = "wasmi", version = "0.13", default-features = false, features = ["std"], optional = true }
+wasmi_009 = { package = "wasmi", version = "0.9", default-features = false, features = ["std"], optional = true }

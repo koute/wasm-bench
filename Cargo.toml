@@ -1,0 +1,70 @@
+[package]
+name = "wasm-bench"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+wasmtime_040 = { package = "wasmtime", optional = true, version = "0.40", default-features = false, features = ["cranelift"] }
+wasmtime_039 = { package = "wasmtime", optional = true, version = "0.39", default-features = false, features = ["cranelift"] }
+wasmtime_038 = { package = "wasmtime", optional = true, version = "0.38", default-features = false, features = ["cranelift"] }
+wasmtime_037 = { package = "wasmtime", optional = true, version = "0.37", default-features = false, features = ["cranelift"] }
+wasmtime_036 = { package = "wasmtime", optional = true, version = "0.36", default-features = false, features = ["cranelift"] }
+wasmtime_035 = { package = "wasmtime", optional = true, version = "0.35", default-features = false, features = ["cranelift"] }
+wasmtime_034 = { package = "wasmtime", optional = true, version = "0.34", default-features = false, features = ["cranelift"] }
+wasmtime_033 = { package = "wasmtime", optional = true, version = "0.33", default-features = false, features = ["cranelift"] }
+kernel_wasmi = { path = "kernel_wasmi", optional = true }
+kernel_regexredux = { path = "kernel_regexredux", optional = true }
+
+[features]
+default = []
+
+# Run the benchmarks under `wasmi` which is running under `wasmtime`.
+target_wasmi_under_wasmtime = []
+
+# Run the benchmarks under `wasmi` which is running on bare metal.
+target_wasmi_on_bare_metal = [
+    "kernel_wasmi"
+]
+
+# Run the benchmark under `wasmtime`.
+target_wasmtime = []
+
+# Run the benchmarks on bare metal.
+target_bare_metal = [
+    "kernel_regexredux",
+]
+
+wasmi_009 = ["kernel_wasmi/wasmi_009"]
+wasmi_013 = ["kernel_wasmi/wasmi_013"]
+wasmi_016 = ["kernel_wasmi/wasmi_016"]
+
+bench_regexredux = []
+bench_coremark = []
+bench_noop = []
+
+[workspace]
+members = [
+    ".",
+    "kernel_wasmi",
+    "kernel_regexredux",
+    "kernel_noop",
+]
+
+[profile.lto]
+inherits = "release"
+lto = true
+codegen-units = 1
+
+[profile.lto-wasmi_016]
+inherits = "lto"
+# inherits = "release"
+
+[profile.lto-wasmi_013]
+inherits = "lto"
+# inherits = "release"
+
+[profile.lto-wasmi_009]
+inherits = "lto"
+# inherits = "release"
